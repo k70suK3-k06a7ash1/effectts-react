@@ -26,17 +26,24 @@
 - **[useManagedRuntime.md](./useManagedRuntime.md)** - ManagedRuntimeの管理
 - **[useRuntimeContext.md](./useRuntimeContext.md)** - ランタイムコンテキストの共有
 
+### 提案中のHooks - Phase 3完了 ✅
+- **[useEffectContext.md](./useEffectContext.md)** - Effect Contextの直接取得
+- **[useProvideService.md](./useProvideService.md)** - シンプルなサービス提供（ProvideServiceコンポーネント）
+- **[useFiber.md](./useFiber.md)** - Fiberの管理とバックグラウンドタスク制御
+- **[useQueue.md](./useQueue.md)** - 並行キューの管理
+- **[useDeferred.md](./useDeferred.md)** - Deferred値の管理
+
 ### その他
 - **[README.md](./README.md)** - Specsディレクトリの記載ルール
 - **[summary.md](./guidelines/summary.md)** - 実装ロードマップ
 
 ### ✅ 規約準拠完了
 以下の規約違反ファイルは、すべて個別の`useXXX.md`ファイルに分割されました：
-- ✅ ~~runtime-hooks.md~~ → 分割完了
-- ✅ ~~stream-hooks.md~~ → 分割完了
-- ✅ ~~service-hooks.md~~ → 分割完了
+- ✅ ~~runtime-hooks.md~~ → 分割完了（useManagedRuntime.md, useRuntimeContext.md）
+- ✅ ~~stream-hooks.md~~ → 分割完了（useStream.md, useStreamValue.md）
+- ✅ ~~service-hooks.md~~ → 分割完了（useService.md, EffectProvider.md, useLayer.md, useProvideService.md, useEffectContext.md）
 - ✅ ~~concurrency-hooks.md~~ → 分割完了（useFiber.md, useQueue.md, useDeferred.md）
-- ✅ ~~request-hooks.md~~ → 分割完了
+- 📋 request-hooks.md → Phase 4で分割予定（useRequest.md, useCachedRequest.md）
 
 ## 実装済みHooks ✅
 
@@ -97,26 +104,19 @@
   - リアルタイムデータ購読
   - バッファサイズ管理
 
-### 今後作成予定 (Phase 3)
-- 📋 useEffectContext - Effect Contextの直接取得
-- 📋 useProvideService - シンプルなサービス提供
+### 将来の拡張 (Phase 4以降 - 仕様未作成)
 
-### 並行処理・Fiber管理
-- 📋 **[useFiber](./useFiber.md)** - Fiberの管理
-- 📋 **[useQueue](./useQueue.md)** - 並行キューの管理
-- 📋 **[useDeferred](./useDeferred.md)** - Deferred値の管理
+#### リクエスト最適化
+- 📋 useRequest - リクエストバッチング
+- 📋 useCachedRequest - キャッシュ付きリクエスト
 
-### リクエスト最適化
-- 📋 [useRequest](./request-hooks.md#userequest) - リクエストバッチング
-- 📋 [useCachedRequest](./request-hooks.md#usecachedrequest) - キャッシュ付きリクエスト
+#### スケジューリング
+- 📋 useSchedule - リトライロジックとスケジューリング
+- 📋 useRetry - 自動リトライ
 
-### スケジューリング
-- 📋 [useSchedule](./schedule-hooks.md#useschedule) - リトライロジックとスケジューリング
-- 📋 [useRetry](./schedule-hooks.md#useretry) - 自動リトライ
-
-### 設定管理
-- 📋 [useConfig](./config-hooks.md#useconfig) - 設定値の読み込み
-- 📋 [useConfigProvider](./config-hooks.md#useconfigprovider) - カスタム設定プロバイダー
+#### 設定管理
+- 📋 useConfig - 設定値の読み込み
+- 📋 useConfigProvider - カスタム設定プロバイダー
 
 ## 優先度と実装ロードマップ
 
@@ -136,12 +136,15 @@
 9. ✅ **useManagedRuntime** - 高度なランタイム管理
 10. ✅ **useRuntimeContext** - グローバルランタイム共有
 
-### 📋 仕様作成予定 (Phase 3)
-11. `useEffectContext` - Context直接操作
-12. `useProvideService` - シンプルなサービス提供
-13. `useFiber` - 並行処理制御
-14. `useQueue` - 並行キューの管理
-15. `useDeferred` - Deferred値の管理
+### ✅ 仕様完成 (Phase 3 - 完了)
+高度な機能とコンテキスト操作のhooksが完成しました：
+11. ✅ **useEffectContext** - Context直接操作
+12. ✅ **useProvideService** - シンプルなサービス提供
+13. ✅ **useFiber** - 並行処理制御
+14. ✅ **useQueue** - 並行キューの管理
+15. ✅ **useDeferred** - Deferred値の管理
+
+### 📋 仕様作成予定 (Phase 4)
 16. `useRequest` - リクエストバッチング
 17. `useCachedRequest` - キャッシュ付きリクエスト
 

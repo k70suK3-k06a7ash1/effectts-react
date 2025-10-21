@@ -81,37 +81,42 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 - **実装難易度**: Medium
 - **ファイル**: `specs/service-hooks.md`
 
-#### useProvideService
+#### useProvideService - ✅ 仕様完成
 - **目的**: シンプルなサービス提供
 - **メリット**: 簡潔なAPI、小規模アプリ向け
 - **実装難易度**: Low
-- **ファイル**: `specs/service-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useProvideService.md](../useProvideService.md)
 
-#### useEffectContext - NEW
+#### useEffectContext - ✅ 仕様完成
 - **目的**: Effect Contextの直接取得
 - **メリット**: 高度な制御、手動でのContext操作
 - **実装難易度**: Low
-- **ファイル**: `specs/service-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useEffectContext.md](../useEffectContext.md)
 
-### 4. 並行処理・Fiber管理（優先度: Medium）
+### 4. 並行処理・Fiber管理（優先度: Medium） - ✅ 仕様完成
 
-#### useFiber
+#### useFiber - ✅ 仕様完成
 - **目的**: Fiberの管理とバックグラウンドタスク制御
 - **メリット**: キャンセル可能な非同期処理、ステータス追跡
 - **実装難易度**: Medium-High
-- **ファイル**: `specs/concurrency-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useFiber.md](../useFiber.md)
 
-#### useQueue
+#### useQueue - ✅ 仕様完成
 - **目的**: Effect Queueによる並行キュー管理
 - **メリット**: タスクキュー、ワーカーパターン
 - **実装難易度**: Medium
-- **ファイル**: `specs/concurrency-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useQueue.md](../useQueue.md)
 
-#### useDeferred
+#### useDeferred - ✅ 仕様完成
 - **目的**: Deferredによる外部解決可能な非同期値
 - **メリット**: Promise的なAPI、手動制御
 - **実装難易度**: Low-Medium
-- **ファイル**: `specs/concurrency-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useDeferred.md](../useDeferred.md)
 
 ### 5. リクエスト最適化（優先度: High）
 
@@ -147,14 +152,14 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 
 **成果**: 包括的な依存性注入システム、ストリーム処理の完全な仕様、ランタイム管理の完成
 
-### Phase 3: 高度な機能（2-3週間）
-11. **useEffectContext** - Context直接操作
-12. **useProvideService** - シンプルDI
-13. **useFiber** - Fiber管理
-14. **useQueue** - タスクキュー
-15. **useDeferred** - 手動非同期制御
+### Phase 3: 高度な機能（2-3週間） - ✅ 完了
+11. ✅ **useEffectContext** - Context直接操作
+12. ✅ **useProvideService** - シンプルDI
+13. ✅ **useFiber** - Fiber管理
+14. ✅ **useQueue** - タスクキュー
+15. ✅ **useDeferred** - 手動非同期制御
 
-**理由**: より高度なユースケースと細かい制御が必要な場合向け
+**成果**: より高度なユースケースと細かい制御が可能な機能の仕様が完成
 
 ### Phase 4: リクエスト最適化（2-3週間）
 16. **useRequest** - リクエストバッチング
