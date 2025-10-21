@@ -11,3 +11,5 @@ export { useFiber } from './useFiber';
 export { useEffectRun } from './useEffectRun';
 export { useEffectResult, type EffectResult } from './useEffectResult';
 export { useStream } from './useStream';
+export { useStreamValue } from './useStreamValue';
+export { useRetry } from './useRetry';
