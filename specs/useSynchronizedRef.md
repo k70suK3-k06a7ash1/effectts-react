@@ -32,7 +32,7 @@ function useSynchronizedRef<A>(initialValue: A): {
 - `initialValue`: 初期値
 
 **戻り値:**
-- useRefと同じ + `updateEffect`メソッド
+- useEffectRefと同じ + `updateEffect`メソッド
 
 ### updateEffectメソッド
 
@@ -306,9 +306,9 @@ export function useSynchronizedRef<A>(initialValue: A): {
 - ✅ Effect内での副作用実行可能
 - ✅ トランザクショナルな更新
 
-### useRefとの違い
+### useEffectRefとの違い
 
-| 機能 | useRef | useSynchronizedRef |
+| 機能 | useEffectRef | useSynchronizedRef |
 |------|--------|-------------------|
 | 基本的な更新 | ✅ | ✅ |
 | effectful更新 | ❌ | ✅ (updateEffect) |
@@ -325,5 +325,5 @@ export function useSynchronizedRef<A>(initialValue: A): {
 
 ## 関連Hooks
 
-- [useRef](./useRef.md) - シンプルな可変参照
+- [useEffectRef](./useEffectRef.md) - シンプルな可変参照
 - [useSubscriptionRef](./useSubscriptionRef.md) - リアクティブな自動更新

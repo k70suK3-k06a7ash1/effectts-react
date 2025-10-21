@@ -1,4 +1,4 @@
-# useRef
+# useEffectRef
 
 **ステータス**: ✅ 実装済み
 
@@ -17,7 +17,7 @@ Effect RefによるミュータブルなステートをReactで管理するhook�
 ## API設計
 
 ```typescript
-function useRef<A>(initialValue: A): {
+function useEffectRef<A>(initialValue: A): {
   value: A | null;
   loading: boolean;
   get: () => Promise<A>;
@@ -43,10 +43,10 @@ function useRef<A>(initialValue: A): {
 ### シンプルなカウンター
 
 ```typescript
-import { useRef } from 'effectts-react';
+import { useEffectRef } from 'effectts-react';
 
 function Counter() {
-  const { value, loading, set, update } = useRef(0);
+  const { value, loading, set, update } = useEffectRef(0);
 
   if (loading) return <div>Loading...</div>;
 
@@ -72,7 +72,7 @@ interface CartItem {
 }
 
 function ShoppingCart() {
-  const { value: items, update, modify } = useRef<CartItem[]>([]);
+  const { value: items, update, modify } = useEffectRef<CartItem[]>([]);
 
   const addItem = async (item: CartItem) => {
     await update(cart => {
@@ -128,7 +128,7 @@ interface FormData {
 }
 
 function ContactForm() {
-  const { value: formData, update, get } = useRef<FormData>({
+  const { value: formData, update, get } = useEffectRef<FormData>({
     name: '',
     email: '',
     message: '',
@@ -169,7 +169,7 @@ function ContactForm() {
 ## 実装詳細
 
 ```typescript
-export function useRef<A>(initialValue: A): {
+export function useEffectRef<A>(initialValue: A): {
   value: A | null;
   loading: boolean;
   get: () => Promise<A>;

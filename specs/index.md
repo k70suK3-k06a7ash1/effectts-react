@@ -8,7 +8,7 @@
 - **[useEffectQuery.md](./useEffectQuery.md)** - 非同期データ取得
 - **[useRuntime.md](./useRuntime.md)** - ランタイム管理
 - **[usePoll.md](./usePoll.md)** - 定期実行
-- **[useRef.md](./useRef.md)** - 可変ステート
+- **[useEffectRef.md](./useEffectRef.md)** - 可変ステート
 - **[useSynchronizedRef.md](./useSynchronizedRef.md)** - effectful更新
 - **[useSubscriptionRef.md](./useSubscriptionRef.md)** - リアクティブステート
 
@@ -41,7 +41,7 @@
   - リアルタイム更新
 
 ### ステート管理
-- ✅ **[useRef](./useRef.md)** - Effect Refによるミュータブル参照
+- ✅ **[useEffectRef](./useEffectRef.md)** - Effect Refによるミュータブル参照
   - get/set/update/modify操作
   - 並行アクセス安全
 

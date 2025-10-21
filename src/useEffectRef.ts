@@ -8,7 +8,7 @@ import * as Ref from 'effect/Ref';
  * @param initialValue - The initial value for the Ref
  * @returns Object containing the current value and methods to interact with the Ref
  */
-export function useRef<A>(initialValue: A): {
+export function useEffectRef<A>(initialValue: A): {
   value: A | null;
   loading: boolean;
   get: () => Promise<A>;

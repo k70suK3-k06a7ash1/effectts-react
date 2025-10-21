@@ -341,7 +341,7 @@ export function useSubscriptionRef<A>(initialValue: A): {
 
 ### 他のhooksとの違い
 
-| 機能 | useRef | useSynchronizedRef | useSubscriptionRef |
+| 機能 | useEffectRef | useSynchronizedRef | useSubscriptionRef |
 |------|--------|-------------------|-------------------|
 | 基本更新 | ✅ | ✅ | ✅ |
 | effectful更新 | ❌ | ✅ | ✅ |
@@ -362,6 +362,6 @@ export function useSubscriptionRef<A>(initialValue: A): {
 
 ## 関連Hooks
 
-- [useRef](./useRef.md) - シンプルな可変参照
+- [useEffectRef](./useEffectRef.md) - シンプルな可変参照
 - [useSynchronizedRef](./useSynchronizedRef.md) - effectful更新
 - [useStream](./stream-hooks.md#usestream) - より汎用的なストリーム購読（提案）

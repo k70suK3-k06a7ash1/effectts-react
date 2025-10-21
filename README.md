@@ -82,15 +82,15 @@ function MyComponent() {
 }
 ```
 
-### useRef
+### useEffectRef
 
 Manage mutable state with Effect Ref for safe concurrent access:
 
 ```typescript
-import { useRef } from 'effectts-react';
+import { useEffectRef } from 'effectts-react';
 
 function Counter() {
-  const { value, loading, set, update } = useRef(0);
+  const { value, loading, set, update } = useEffectRef(0);
 
   if (loading) return <div>Loading...</div>;
 
@@ -209,7 +209,7 @@ Runs an Effect repeatedly at a specified interval.
 }
 ```
 
-### `useRef<A>(initialValue: A)`
+### `useEffectRef<A>(initialValue: A)`
 
 Creates a mutable reference with Effect Ref for safe concurrent state management.
 

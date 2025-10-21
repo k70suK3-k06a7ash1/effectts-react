@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { renderHook, waitFor } from '@testing-library/react';
-import { useRef } from './useRef';
+import { useEffectRef } from './useEffectRef';
 
-describe('useRef', () => {
+describe('useEffectRef', () => {
   it('should initialize with the initial value', async () => {
-    const { result } = renderHook(() => useRef(42));
+    const { result } = renderHook(() => useEffectRef(42));
 
     expect(result.current.loading).toBe(true);
 
@@ -16,7 +16,7 @@ describe('useRef', () => {
   });
 
   it('should get the current value', async () => {
-    const { result } = renderHook(() => useRef(10));
+    const { result } = renderHook(() => useEffectRef(10));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -27,7 +27,7 @@ describe('useRef', () => {
   });
 
   it('should set a new value', async () => {
-    const { result } = renderHook(() => useRef(0));
+    const { result } = renderHook(() => useEffectRef(0));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -41,7 +41,7 @@ describe('useRef', () => {
   });
 
   it('should update the value with a function', async () => {
-    const { result } = renderHook(() => useRef(5));
+    const { result } = renderHook(() => useEffectRef(5));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -55,7 +55,7 @@ describe('useRef', () => {
   });
 
   it('should modify and return a computed value', async () => {
-    const { result } = renderHook(() => useRef(10));
+    const { result } = renderHook(() => useEffectRef(10));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -71,7 +71,7 @@ describe('useRef', () => {
   });
 
   it('should handle string values', async () => {
-    const { result } = renderHook(() => useRef('hello'));
+    const { result } = renderHook(() => useEffectRef('hello'));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -87,7 +87,7 @@ describe('useRef', () => {
   });
 
   it('should handle object values', async () => {
-    const { result } = renderHook(() => useRef({ count: 0 }));
+    const { result } = renderHook(() => useEffectRef({ count: 0 }));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
