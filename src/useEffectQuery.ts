@@ -10,7 +10,7 @@ import * as Cause from 'effect/Cause';
  * @param deps - Dependencies array (like useEffect)
  * @returns Object containing loading state, data, and error
  */
-export function useEffect<A, E>(
+export function useEffectQuery<A, E>(
   effect: Effect.Effect<A, E>,
   deps: React.DependencyList = []
 ): {

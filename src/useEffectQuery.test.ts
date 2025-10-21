@@ -1,12 +1,13 @@
-import { describe, it, expect, vi } from 'vitest';
-import { renderHook, waitFor } from '@testing-library/react';
-import { useEffect } from './useEffect';
+import { describe, it, expect } from 'vitest';
+import { renderHook } from '@testing-library/react';
+import { waitFor } from '@testing-library/dom';
+import { useEffectQuery } from './useEffectQuery';
 import * as Effect from 'effect/Effect';
 
-describe('useEffect', () => {
+describe('useEffectQuery', () => {
   it('should start with loading state', () => {
     const effect = Effect.succeed(42);
-    const { result } = renderHook(() => useEffect(effect));
+    const { result } = renderHook(() => useEffectQuery(effect));
 
     expect(result.current.loading).toBe(true);
     expect(result.current.data).toBe(null);
@@ -15,7 +16,7 @@ describe('useEffect', () => {
 
   it('should update with data when effect succeeds', async () => {
     const effect = Effect.succeed(42);
-    const { result } = renderHook(() => useEffect(effect));
+    const { result } = renderHook(() => useEffectQuery(effect));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -28,7 +29,7 @@ describe('useEffect', () => {
   it('should update with error when effect fails', async () => {
     const errorMessage = 'Test error';
     const effect = Effect.fail(errorMessage);
-    const { result } = renderHook(() => useEffect(effect));
+    const { result } = renderHook(() => useEffectQuery(effect));
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
@@ -41,7 +42,7 @@ describe('useEffect', () => {
   it('should re-run effect when dependencies change', async () => {
     let value = 1;
     const { result, rerender } = renderHook(
-      ({ deps }) => useEffect(Effect.sync(() => value), deps),
+      ({ deps }) => useEffectQuery(Effect.sync(() => value), deps),
       { initialProps: { deps: [1] } }
     );
 
@@ -61,7 +62,7 @@ describe('useEffect', () => {
 
   it('should handle async effects', async () => {
     const effect = Effect.promise(() => Promise.resolve('async result'));
-    const { result } = renderHook(() => useEffect(effect));
+    const { result } = renderHook(() => useEffectQuery(effect));
 
     expect(result.current.loading).toBe(true);
 
@@ -75,7 +76,7 @@ describe('useEffect', () => {
 
   it('should cancel previous effect on unmount', async () => {
     const effect = Effect.succeed(42);
-    const { result, unmount } = renderHook(() => useEffect(effect));
+    const { unmount } = renderHook(() => useEffectQuery(effect));
 
     unmount();
 

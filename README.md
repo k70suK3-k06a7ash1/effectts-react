@@ -21,16 +21,16 @@ pnpm add effectts-react
 
 ## Usage
 
-### useEffect
+### useEffectQuery
 
 Run an Effect and get its result in your React component:
 
 ```typescript
-import { useEffect } from 'effectts-react';
+import { useEffectQuery } from 'effectts-react';
 import * as Effect from 'effect/Effect';
 
 function MyComponent() {
-  const { data, error, loading } = useEffect(
+  const { data, error, loading } = useEffectQuery(
     Effect.succeed('Hello, Effect!'),
     []
   );
@@ -82,9 +82,90 @@ function MyComponent() {
 }
 ```
 
+### useRef
+
+Manage mutable state with Effect Ref for safe concurrent access:
+
+```typescript
+import { useRef } from 'effectts-react';
+
+function Counter() {
+  const { value, loading, set, update } = useRef(0);
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <p>Count: {value}</p>
+      <button onClick={() => update(n => n + 1)}>Increment</button>
+      <button onClick={() => update(n => n - 1)}>Decrement</button>
+      <button onClick={() => set(0)}>Reset</button>
+    </div>
+  );
+}
+```
+
+### useSynchronizedRef
+
+Perform atomic, effectful state updates with SynchronizedRef:
+
+```typescript
+import { useSynchronizedRef } from 'effectts-react';
+import * as Effect from 'effect/Effect';
+
+function UserList() {
+  const { value, loading, updateEffect } = useSynchronizedRef<string[]>([]);
+
+  const fetchAndAddUser = async () => {
+    await updateEffect(users =>
+      Effect.gen(function* () {
+        // Simulate fetching user data
+        const response = yield* Effect.promise(() =>
+          fetch('/api/user').then(r => r.json())
+        );
+        return [...users, response.name];
+      })
+    );
+  };
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <button onClick={fetchAndAddUser}>Add User</button>
+      <ul>
+        {value?.map((user, i) => <li key={i}>{user}</li>)}
+      </ul>
+    </div>
+  );
+}
+```
+
+### useSubscriptionRef
+
+Reactive state management with automatic change notifications:
+
+```typescript
+import { useSubscriptionRef } from 'effectts-react';
+
+function ReactiveCounter() {
+  const { value, loading, update } = useSubscriptionRef(0);
+
+  // Value automatically updates when the ref changes
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <p>Count: {value}</p>
+      <button onClick={() => update(n => n + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
 ## API
 
-### `useEffect<A, E>(effect: Effect.Effect<A, E>, deps?: DependencyList)`
+### `useEffectQuery<A, E>(effect: Effect.Effect<A, E>, deps?: DependencyList)`
 
 Runs an Effect and returns its result.
 
@@ -125,6 +206,65 @@ Runs an Effect repeatedly at a specified interval.
   data: A | null;
   error: E | null;
   loading: boolean;
+}
+```
+
+### `useRef<A>(initialValue: A)`
+
+Creates a mutable reference with Effect Ref for safe concurrent state management.
+
+**Parameters:**
+- `initialValue`: The initial value for the Ref
+
+**Returns:**
+```typescript
+{
+  value: A | null;
+  loading: boolean;
+  get: () => Promise<A>;
+  set: (value: A) => Promise<void>;
+  update: (f: (a: A) => A) => Promise<void>;
+  modify: <B>(f: (a: A) => readonly [B, A]) => Promise<B>;
+}
+```
+
+### `useSynchronizedRef<A>(initialValue: A)`
+
+Creates a SynchronizedRef for atomic, effectful state updates.
+
+**Parameters:**
+- `initialValue`: The initial value for the SynchronizedRef
+
+**Returns:**
+```typescript
+{
+  value: A | null;
+  loading: boolean;
+  get: () => Promise<A>;
+  set: (value: A) => Promise<void>;
+  update: (f: (a: A) => A) => Promise<void>;
+  updateEffect: <R, E>(f: (a: A) => Effect.Effect<A, E, R>) => Promise<void>;
+  modify: <B>(f: (a: A) => readonly [B, A]) => Promise<B>;
+}
+```
+
+### `useSubscriptionRef<A>(initialValue: A)`
+
+Creates a SubscriptionRef with automatic change notifications via reactive streams.
+
+**Parameters:**
+- `initialValue`: The initial value for the SubscriptionRef
+
+**Returns:**
+```typescript
+{
+  value: A | null;
+  loading: boolean;
+  get: () => Promise<A>;
+  set: (value: A) => Promise<void>;
+  update: (f: (a: A) => A) => Promise<void>;
+  updateEffect: <R, E>(f: (a: A) => Effect.Effect<A, E, R>) => Promise<void>;
+  modify: <B>(f: (a: A) => readonly [B, A]) => Promise<B>;
 }
 ```
 
