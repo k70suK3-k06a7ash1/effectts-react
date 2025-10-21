@@ -4,3 +4,6 @@ export { usePoll } from './usePoll';
 export { useEffectRef } from './useEffectRef';
 export { useSynchronizedRef } from './useSynchronizedRef';
 export { useSubscriptionRef } from './useSubscriptionRef';
+export { useDeferred } from './useDeferred';
+export { useQueue } from './useQueue';
+export { useEffectCallback } from './useEffectCallback';
