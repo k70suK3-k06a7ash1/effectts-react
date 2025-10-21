@@ -1,6 +1,6 @@
 # useSchedule
 
-**ステータス**: 📋 提案中 (Phase 5)
+**ステータス**: ✅ 実装済み
 
 ## 概要
 Effect-TSのScheduleを使用してリトライロジックと繰り返し実行のポリシーを管理するhook。exponential backoff、固定間隔、条件付きリトライなどの戦略を提供します。

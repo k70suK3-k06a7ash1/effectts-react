@@ -1,6 +1,6 @@
 # ProvideService
 
-**ステータス**: 📋 提案中 (Phase 3)
+**ステータス**: ✅ 実装済み
 
 **注**: ファイル名は`useProvideService.md`ですが、実際のエクスポートは`ProvideService`コンポーネントです。
 

@@ -3,6 +3,7 @@ import * as Context from 'effect/Context';
 import * as Layer from 'effect/Layer';
 import * as Runtime from 'effect/Runtime';
 import * as Effect from 'effect/Effect';
+import { getOrCreateServiceContext } from './useProvideService';
 
 // React Context to hold the Effect Runtime
 const EffectRuntimeContext = createContext<Runtime.Runtime<any> | null>(null);
@@ -38,6 +39,16 @@ export function EffectProvider({ layer, children }: EffectProviderProps) {
 export function useService<I, S>(tag: Context.Tag<I, S>): S | null {
   const runtime = useContext(EffectRuntimeContext);
 
+  // First, try to get service from ProvideService context
+  const ServiceContext = getOrCreateServiceContext(tag);
+  const providedService = useContext(ServiceContext);
+
+  // If service is provided via ProvideService, return it
+  if (providedService !== null) {
+    return providedService;
+  }
+
+  // Otherwise, try to get from EffectProvider runtime
   const service = useMemo(() => {
     if (!runtime) {
       return null;
