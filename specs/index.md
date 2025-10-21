@@ -33,6 +33,10 @@
 - **[useQueue.md](./useQueue.md)** - 並行キューの管理
 - **[useDeferred.md](./useDeferred.md)** - Deferred値の管理
 
+### 提案中のHooks - Phase 4完了 ✅
+- **[useRequest.md](./useRequest.md)** - リクエストバッチングとN+1問題の解決
+- **[useCachedRequest.md](./useCachedRequest.md)** - キャッシング付きリクエスト最適化
+
 ### その他
 - **[README.md](./README.md)** - Specsディレクトリの記載ルール
 - **[summary.md](./guidelines/summary.md)** - 実装ロードマップ
@@ -43,7 +47,7 @@
 - ✅ ~~stream-hooks.md~~ → 分割完了（useStream.md, useStreamValue.md）
 - ✅ ~~service-hooks.md~~ → 分割完了（useService.md, EffectProvider.md, useLayer.md, useProvideService.md, useEffectContext.md）
 - ✅ ~~concurrency-hooks.md~~ → 分割完了（useFiber.md, useQueue.md, useDeferred.md）
-- 📋 request-hooks.md → Phase 4で分割予定（useRequest.md, useCachedRequest.md）
+- ✅ ~~request-hooks.md~~ → 分割完了（useRequest.md, useCachedRequest.md）
 
 ## 実装済みHooks ✅
 
@@ -104,11 +108,7 @@
   - リアルタイムデータ購読
   - バッファサイズ管理
 
-### 将来の拡張 (Phase 4以降 - 仕様未作成)
-
-#### リクエスト最適化
-- 📋 useRequest - リクエストバッチング
-- 📋 useCachedRequest - キャッシュ付きリクエスト
+### 将来の拡張 (Phase 5以降 - 検討中)
 
 #### スケジューリング
 - 📋 useSchedule - リトライロジックとスケジューリング
@@ -144,9 +144,14 @@
 14. ✅ **useQueue** - 並行キューの管理
 15. ✅ **useDeferred** - Deferred値の管理
 
-### 📋 仕様作成予定 (Phase 4)
-16. `useRequest` - リクエストバッチング
-17. `useCachedRequest` - キャッシュ付きリクエスト
+### ✅ 仕様完成 (Phase 4 - 完了)
+リクエスト最適化とパフォーマンス改善のhooksが完成しました：
+16. ✅ **useRequest** - リクエストバッチングとN+1問題の解決
+17. ✅ **useCachedRequest** - キャッシング付きリクエスト最適化
+
+### 📋 今後の検討 (Phase 5以降)
+- スケジューリング関連hooks
+- 設定管理関連hooks
 
 ## 設計原則
 

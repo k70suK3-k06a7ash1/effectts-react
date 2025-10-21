@@ -118,19 +118,21 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 - **ステータス**: ✅ 仕様完成
 - **ファイル**: [specs/useDeferred.md](../useDeferred.md)
 
-### 5. リクエスト最適化（優先度: High）
+### 5. リクエスト最適化（優先度: High） - ✅ 仕様完成
 
-#### useRequest
+#### useRequest - ✅ 仕様完成
 - **目的**: RequestResolverによるリクエストバッチング
 - **メリット**: N+1問題解決、ネットワーク最適化
 - **実装難易度**: High
-- **ファイル**: `specs/request-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useRequest.md](../useRequest.md)
 
-#### useCachedRequest
+#### useCachedRequest - ✅ 仕様完成
 - **目的**: キャッシング付きリクエスト最適化
 - **メリット**: 重複リクエスト排除、パフォーマンス向上
 - **実装難易度**: High
-- **ファイル**: `specs/request-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useCachedRequest.md](../useCachedRequest.md)
 
 ## 実装ロードマップ
 
@@ -161,11 +163,11 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 
 **成果**: より高度なユースケースと細かい制御が可能な機能の仕様が完成
 
-### Phase 4: リクエスト最適化（2-3週間）
-16. **useRequest** - リクエストバッチング
-17. **useCachedRequest** - キャッシング
+### Phase 4: リクエスト最適化（2-3週間） - ✅ 完了
+16. ✅ **useRequest** - リクエストバッチング
+17. ✅ **useCachedRequest** - キャッシング
 
-**理由**: パフォーマンスクリティカルなアプリケーション向け
+**成果**: N+1問題の解決とキャッシング戦略により、パフォーマンスクリティカルなアプリケーションに対応
 
 ## 技術的考慮事項
 
