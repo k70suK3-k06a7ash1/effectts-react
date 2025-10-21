@@ -1,15 +1,57 @@
 # Effect-TS React Hooks - Design Specifications
 
-このディレクトリには、effectts-reactライブラリに追加予定のカスタムhooksの設計仕様が含まれています。
+このディレクトリには、effectts-reactライブラリのカスタムhooksの設計仕様が含まれています。
 
-## 現在実装済み
+## 📚 ドキュメント構成
 
-- ✅ `useEffectQuery` - Effectを実行して結果を取得
-- ✅ `useRuntime` - Effectランタイムの作成
-- ✅ `usePoll` - 定期的なEffect実行
-- ✅ `useRef` - Effect Refによるミュータブル参照
-- ✅ `useSynchronizedRef` - アトミックなeffectful更新
-- ✅ `useSubscriptionRef` - リアクティブなステート管理
+### 実装済みHooks
+- **[useEffectQuery.md](./useEffectQuery.md)** - 非同期データ取得
+- **[useRuntime.md](./useRuntime.md)** - ランタイム管理
+- **[usePoll.md](./usePoll.md)** - 定期実行
+- **[useRef.md](./useRef.md)** - 可変ステート
+- **[useSynchronizedRef.md](./useSynchronizedRef.md)** - effectful更新
+- **[useSubscriptionRef.md](./useSubscriptionRef.md)** - リアクティブステート
+
+### 提案中のHooks
+- **[runtime-hooks.md](./runtime-hooks.md)** - ランタイム管理hooks
+- **[stream-hooks.md](./stream-hooks.md)** - ストリーム処理hooks
+- **[service-hooks.md](./service-hooks.md)** - サービス・依存性注入hooks
+- **[concurrency-hooks.md](./concurrency-hooks.md)** - 並行処理hooks
+- **[request-hooks.md](./request-hooks.md)** - リクエスト最適化hooks
+
+### その他
+- **[summary.md](./summary.md)** - 実装ロードマップ
+
+## 実装済みHooks ✅
+
+### データフェッチング
+- ✅ **[useEffectQuery](./useEffectQuery.md)** - Effectを実行してデータ取得
+  - loading/data/error状態管理
+  - 依存配列による再実行制御
+  - 自動クリーンアップ
+
+### ランタイム管理
+- ✅ **[useRuntime](./useRuntime.md)** - Effectランタイムの作成
+  - カスタムコンテキストサポート
+  - メモ化による最適化
+
+### 定期実行
+- ✅ **[usePoll](./usePoll.md)** - 定期的なEffect実行
+  - 指定間隔での自動実行
+  - リアルタイム更新
+
+### ステート管理
+- ✅ **[useRef](./useRef.md)** - Effect Refによるミュータブル参照
+  - get/set/update/modify操作
+  - 並行アクセス安全
+
+- ✅ **[useSynchronizedRef](./useSynchronizedRef.md)** - アトミックなeffectful更新
+  - updateEffectメソッド
+  - 並行更新の順序保証
+
+- ✅ **[useSubscriptionRef](./useSubscriptionRef.md)** - リアクティブなステート管理
+  - 自動UI更新
+  - changesストリーム購読
 
 ## 提案中の新規hooks
 
