@@ -1,5 +1,7 @@
 # effectts-react
 
+[![CI](https://github.com/k70suK3-k06a7ash1/effectts-react/actions/workflows/ci.yml/badge.svg)](https://github.com/k70suK3-k06a7ash1/effectts-react/actions/workflows/ci.yml)
+
 React hooks for Effect-TS
 
 ## Installation
