@@ -1,6 +1,6 @@
 # ConfigProvider
 
-**ステータス**: 📋 提案中 (Phase 5)
+**ステータス**: ✅ 実装済み
 
 **注**: ファイル名は`useConfigProvider.md`ですが、実際のエクスポートは`ConfigProvider`コンポーネントと`useConfigProvider` hookです。
 

@@ -13,3 +13,8 @@ export { useEffectResult, type EffectResult } from './useEffectResult';
 export { useStream } from './useStream';
 export { useStreamValue } from './useStreamValue';
 export { useRetry } from './useRetry';
+export { useService, EffectProvider } from './useService';
+export { useConfig } from './useConfig';
+export { useLayer } from './useLayer';
+export { useConfigProvider, ConfigProvider } from './useConfigProvider';
+export { useEffectContext } from './useEffectContext';

@@ -1,6 +1,6 @@
 # useEffectContext
 
-**ステータス**: 📋 提案中 (Phase 3)
+**ステータス**: ✅ 実装済み
 
 ## 概要
 Effect Contextを直接取得し、複数のサービスや高度なContext操作を可能にするhook。
