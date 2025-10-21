@@ -1,0 +1,34 @@
+# Source files
+src/
+tsconfig.json
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Tests
+__tests__/
+*.test.ts
+*.test.tsx
+*.spec.ts
+*.spec.tsx
+coverage/
+
+# Config files
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Misc
+.DS_Store
+*.log
+.env
+.env.*
