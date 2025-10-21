@@ -37,6 +37,12 @@
 - **[useRequest.md](./useRequest.md)** - リクエストバッチングとN+1問題の解決
 - **[useCachedRequest.md](./useCachedRequest.md)** - キャッシング付きリクエスト最適化
 
+### 提案中のHooks - Phase 5完了 ✅
+- **[useSchedule.md](./useSchedule.md)** - リトライロジックとスケジューリング
+- **[useRetry.md](./useRetry.md)** - シンプルな自動リトライ
+- **[useConfig.md](./useConfig.md)** - 設定値の型安全な取得
+- **[useConfigProvider.md](./useConfigProvider.md)** - カスタム設定プロバイダー（ConfigProviderコンポーネント）
+
 ### その他
 - **[README.md](./README.md)** - Specsディレクトリの記載ルール
 - **[summary.md](./guidelines/summary.md)** - 実装ロードマップ
@@ -108,15 +114,6 @@
   - リアルタイムデータ購読
   - バッファサイズ管理
 
-### 将来の拡張 (Phase 5以降 - 検討中)
-
-#### スケジューリング
-- 📋 useSchedule - リトライロジックとスケジューリング
-- 📋 useRetry - 自動リトライ
-
-#### 設定管理
-- 📋 useConfig - 設定値の読み込み
-- 📋 useConfigProvider - カスタム設定プロバイダー
 
 ## 優先度と実装ロードマップ
 
@@ -149,9 +146,16 @@
 16. ✅ **useRequest** - リクエストバッチングとN+1問題の解決
 17. ✅ **useCachedRequest** - キャッシング付きリクエスト最適化
 
-### 📋 今後の検討 (Phase 5以降)
-- スケジューリング関連hooks
-- 設定管理関連hooks
+### ✅ 仕様完成 (Phase 5 - 完了)
+スケジューリングと設定管理のhooksが完成しました：
+18. ✅ **useSchedule** - リトライロジックとスケジューリング
+19. ✅ **useRetry** - シンプルな自動リトライ
+20. ✅ **useConfig** - 設定値の型安全な取得
+21. ✅ **useConfigProvider** - カスタム設定プロバイダー
+
+## 🎉 全フェーズ完了
+
+**合計: 21 hooks + 2 components (EffectProvider, ConfigProvider) の仕様が完成**
 
 ## 設計原則
 

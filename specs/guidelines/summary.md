@@ -134,6 +134,36 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 - **ステータス**: ✅ 仕様完成
 - **ファイル**: [specs/useCachedRequest.md](../useCachedRequest.md)
 
+### 6. スケジューリングと設定管理（優先度: Medium-High） - ✅ 仕様完成
+
+#### useSchedule - ✅ 仕様完成
+- **目的**: リトライロジックと繰り返し実行のポリシー管理
+- **メリット**: Exponential backoff、固定間隔、条件付きリトライなど柔軟な戦略
+- **実装難易度**: Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useSchedule.md](../useSchedule.md)
+
+#### useRetry - ✅ 仕様完成
+- **目的**: シンプルな自動リトライ機能
+- **メリット**: 使いやすいAPI、一般的なリトライパターンに特化
+- **実装難易度**: Low-Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useRetry.md](../useRetry.md)
+
+#### useConfig - ✅ 仕様完成
+- **目的**: 環境変数や設定値の型安全な取得
+- **メリット**: デフォルト値、検証、変換のサポート
+- **実装難易度**: Low
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useConfig.md](../useConfig.md)
+
+#### useConfigProvider - ✅ 仕様完成
+- **目的**: カスタム設定ソースの提供
+- **メリット**: API、データベース、ローカルストレージなど多様なソース対応
+- **実装難易度**: Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useConfigProvider.md](../useConfigProvider.md)
+
 ## 実装ロードマップ
 
 ### Phase 1: コア機能（3-4週間） - ✅ 完了
@@ -168,6 +198,14 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 17. ✅ **useCachedRequest** - キャッシング
 
 **成果**: N+1問題の解決とキャッシング戦略により、パフォーマンスクリティカルなアプリケーションに対応
+
+### Phase 5: スケジューリングと設定管理（2週間） - ✅ 完了
+18. ✅ **useSchedule** - リトライロジックとスケジューリング
+19. ✅ **useRetry** - シンプルな自動リトライ
+20. ✅ **useConfig** - 設定値の型安全な取得
+21. ✅ **useConfigProvider** - カスタム設定プロバイダー
+
+**成果**: エラーリカバリー戦略とアプリケーション設定管理の完全なサポート
 
 ## 技術的考慮事項
 
@@ -213,25 +251,38 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 - Reactエコシステムへの貢献
 - 新しいパターンの確立
 
+## 🎉 全フェーズ完了
+
+**合計: 21 hooks + 2 components (EffectProvider, ConfigProvider) の仕様が完成**
+
+すべてのhook仕様は以下を含む実装可能なレベルで完成しています：
+- ✅ 完全なTypeScript型定義
+- ✅ 詳細な実装コード
+- ✅ 6-8個の実用的な使用例
+- ✅ エッジケースとベストプラクティス
+- ✅ 包括的なテストケース
+- ✅ 関連hooksとの比較
+
 ## 次のステップ
 
-1. **Phase 1の実装開始**
-   - useEffectRun
-   - EffectProvider
-   - useEffectResult
-   - useService
-   - useManagedRuntime
+### 1. 実装フェーズ
+- Phase 1-5の全hookの実装
+- 各hookに対する単体テスト作成
+- 統合テスト作成
 
-2. **コミュニティフィードバック**
-   - GitHub Discussionsでの議論
-   - 早期ユーザーからのフィードバック
+### 2. ドキュメント整備
+- ユーザー向けAPIドキュメント
+- チュートリアルとガイド作成
+- サンプルアプリケーション開発
+- マイグレーションガイド
 
-3. **ドキュメント整備**
-   - 使用例の追加
-   - チュートリアル作成
-   - マイグレーションガイド
+### 3. コミュニティエンゲージメント
+- GitHub Discussionsでの議論
+- 早期ユーザーからのフィードバック収集
+- ブログ記事・チュートリアル公開
 
-4. **継続的改善**
-   - パフォーマンス最適化
-   - 新機能の追加
-   - バグ修正
+### 4. 継続的改善
+- パフォーマンス最適化
+- バグ修正
+- コミュニティからの要望対応
+- 新機能の検討
