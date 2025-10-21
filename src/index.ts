@@ -7,3 +7,7 @@ export { useSubscriptionRef } from './useSubscriptionRef';
 export { useDeferred } from './useDeferred';
 export { useQueue } from './useQueue';
 export { useEffectCallback } from './useEffectCallback';
+export { useFiber } from './useFiber';
+export { useEffectRun } from './useEffectRun';
+export { useEffectResult, type EffectResult } from './useEffectResult';
+export { useStream } from './useStream';
