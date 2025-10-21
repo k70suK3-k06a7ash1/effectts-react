@@ -6,7 +6,30 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 
 ## 提案Hook一覧
 
-### 1. ランタイム管理（優先度: High）
+### 1. Effect実行（優先度: High） - ✅ 仕様完成
+
+#### useEffectRun
+- **目的**: Fiberベースの自動キャンセル機能付きEffect実行
+- **メリット**: 適切なリソース管理、長時間実行タスクの中断可能性
+- **実装難易度**: Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useEffectRun.md](./useEffectRun.md)
+
+#### useEffectResult
+- **目的**: Exit型によるパターンマッチング可能な状態管理
+- **メリット**: 型安全なエラーハンドリング、宣言的なUI記述
+- **実装難易度**: Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useEffectResult.md](./useEffectResult.md)
+
+#### useEffectCallback
+- **目的**: ユーザーインタラクションからのEffect実行
+- **メリット**: フォーム送信、ボタンクリックなどのイベントハンドリング
+- **実装難易度**: Low-Medium
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useEffectCallback.md](./useEffectCallback.md)
+
+### 2. ランタイム管理（優先度: High）
 
 #### useManagedRuntime
 - **目的**: カスタムレイヤーを持つManagedRuntimeの管理
@@ -22,25 +45,35 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 
 ### 2. ストリーム処理（優先度: High）
 
-#### useStream
+#### useStream - ✅ 仕様完成
 - **目的**: Effect Streamの購読と値の自動更新
 - **メリット**: リアルタイムデータ、WebSocket、SSEの統合
 - **実装難易度**: Medium
-- **ファイル**: `specs/stream-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useStream.md](./useStream.md)
 
-#### useStreamValue
+#### useStreamValue - 📝 仕様作成予定
 - **目的**: Streamから最新値のみを取得（軽量版）
 - **メリット**: メモリ効率、シンプルなAPI
 - **実装難易度**: Low
-- **ファイル**: `specs/stream-hooks.md`
+- **ステータス**: 📝 仕様作成予定
+- **ファイル**: `specs/useStreamValue.md`（未作成）
 
 ### 3. サービス・依存性注入（優先度: High）
 
-#### useService
+#### useService - ✅ 仕様完成
 - **目的**: Context.Tagで定義されたサービスの利用
 - **メリット**: 依存性注入パターン、テスト容易性
 - **実装難易度**: Low
-- **ファイル**: `specs/service-hooks.md`
+- **ステータス**: ✅ 仕様完成
+- **ファイル**: [specs/useService.md](./useService.md)
+
+#### EffectProvider - 📝 仕様作成予定
+- **目的**: コンポーネントツリー全体への依存性注入
+- **メリット**: アプリケーション全体でのサービス共有、テスト時のモック提供
+- **実装難易度**: Medium
+- **ステータス**: 📝 仕様作成予定
+- **ファイル**: `specs/EffectProvider.md`（未作成）
 
 #### useLayer
 - **目的**: Layerの構築とコンテキスト提供
@@ -51,6 +84,12 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 #### useProvideService
 - **目的**: シンプルなサービス提供
 - **メリット**: 簡潔なAPI、小規模アプリ向け
+- **実装難易度**: Low
+- **ファイル**: `specs/service-hooks.md`
+
+#### useEffectContext - NEW
+- **目的**: Effect Contextの直接取得
+- **メリット**: 高度な制御、手動でのContext操作
 - **実装難易度**: Low
 - **ファイル**: `specs/service-hooks.md`
 
@@ -90,33 +129,38 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 
 ## 実装ロードマップ
 
-### Phase 1: 基本インフラ（2-3週間）
-1. **useManagedRuntime** - ランタイム管理の基盤
-2. **useRuntimeContext** - グローバルランタイム共有
-3. **useService** - 依存性注入の基本
+### Phase 1: コア機能（3-4週間） - ✅ 完了
+1. ✅ **useEffectRun** - Fiberベースの高度なEffect実行
+2. ✅ **useEffectResult** - パターンマッチングによる状態管理
+3. ✅ **useEffectCallback** - ユーザーインタラクション対応
+4. ✅ **useService** - 依存性注入の基本
+5. ✅ **useStream** - リアクティブデータストリーム
 
-**理由**: これらはその他のhooksの基盤となるため最優先
+**成果**: Effect実行の基本パターン、依存性注入の基礎、ストリーム処理の仕様が完成
 
-### Phase 2: データフロー（2-3週間）
-4. **useStream** - リアクティブデータ
-5. **useStreamValue** - 軽量ストリーム
-6. **useLayer** - サービス構成
+### Phase 2: データフローと最適化（2-3週間） - ✅ 完了
+6. ✅ **EffectProvider** - アプリケーション全体での依存性注入
+7. ✅ **useStreamValue** - 軽量ストリーム
+8. ✅ **useLayer** - サービス構成
+9. ✅ **useManagedRuntime** - ランタイム管理の基盤
+10. ✅ **useRuntimeContext** - グローバルランタイム共有
 
-**理由**: リアルタイムアプリケーション開発で高需要
+**成果**: 包括的な依存性注入システム、ストリーム処理の完全な仕様、ランタイム管理の完成
 
-### Phase 3: 最適化（2-3週間）
-7. **useRequest** - リクエストバッチング
-8. **useCachedRequest** - キャッシング
-9. **useProvideService** - シンプルDI
+### Phase 3: 高度な機能（2-3週間）
+11. **useEffectContext** - Context直接操作
+12. **useProvideService** - シンプルDI
+13. **useFiber** - Fiber管理
+14. **useQueue** - タスクキュー
+15. **useDeferred** - 手動非同期制御
+
+**理由**: より高度なユースケースと細かい制御が必要な場合向け
+
+### Phase 4: リクエスト最適化（2-3週間）
+16. **useRequest** - リクエストバッチング
+17. **useCachedRequest** - キャッシング
 
 **理由**: パフォーマンスクリティカルなアプリケーション向け
-
-### Phase 4: 高度な並行処理（2-3週間）
-10. **useFiber** - Fiber管理
-11. **useQueue** - タスクキュー
-12. **useDeferred** - 手動非同期制御
-
-**理由**: より高度なユースケース向け
 
 ## 技術的考慮事項
 
@@ -165,9 +209,11 @@ Effect-TSの公式ドキュメント（https://effect.website/llms-full.txt）�
 ## 次のステップ
 
 1. **Phase 1の実装開始**
-   - useManagedRuntime
-   - useRuntimeContext
+   - useEffectRun
+   - EffectProvider
+   - useEffectResult
    - useService
+   - useManagedRuntime
 
 2. **コミュニティフィードバック**
    - GitHub Discussionsでの議論

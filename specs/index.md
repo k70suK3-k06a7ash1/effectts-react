@@ -12,15 +12,31 @@
 - **[useSynchronizedRef.md](./useSynchronizedRef.md)** - effectful更新
 - **[useSubscriptionRef.md](./useSubscriptionRef.md)** - リアクティブステート
 
-### 提案中のHooks
-- **[runtime-hooks.md](./runtime-hooks.md)** - ランタイム管理hooks
-- **[stream-hooks.md](./stream-hooks.md)** - ストリーム処理hooks
-- **[service-hooks.md](./service-hooks.md)** - サービス・依存性注入hooks
-- **[concurrency-hooks.md](./concurrency-hooks.md)** - 並行処理hooks
-- **[request-hooks.md](./request-hooks.md)** - リクエスト最適化hooks
+### 提案中のHooks - Phase 1完了 ✅
+- **[useEffectRun.md](./useEffectRun.md)** - Fiberベースの高度なEffect実行
+- **[useEffectResult.md](./useEffectResult.md)** - Exit型とパターンマッチング
+- **[useEffectCallback.md](./useEffectCallback.md)** - ユーザーインタラクションからのEffect実行
+- **[useService.md](./useService.md)** - Effect Serviceの利用（依存性注入）
+- **[useStream.md](./useStream.md)** - Effect Streamの購読
+
+### 提案中のHooks - Phase 2完了 ✅
+- **[EffectProvider.md](./EffectProvider.md)** - アプリケーション全体への依存性注入
+- **[useStreamValue.md](./useStreamValue.md)** - Stream最新値のみ取得（軽量版）
+- **[useLayer.md](./useLayer.md)** - Layerの構築とContext取得
+- **[useManagedRuntime.md](./useManagedRuntime.md)** - ManagedRuntimeの管理
+- **[useRuntimeContext.md](./useRuntimeContext.md)** - ランタイムコンテキストの共有
 
 ### その他
-- **[summary.md](./summary.md)** - 実装ロードマップ
+- **[README.md](./README.md)** - Specsディレクトリの記載ルール
+- **[summary.md](./guidelines/summary.md)** - 実装ロードマップ
+
+### ✅ 規約準拠完了
+以下の規約違反ファイルは、すべて個別の`useXXX.md`ファイルに分割されました：
+- ✅ ~~runtime-hooks.md~~ → 分割完了
+- ✅ ~~stream-hooks.md~~ → 分割完了
+- ✅ ~~service-hooks.md~~ → 分割完了
+- ✅ ~~concurrency-hooks.md~~ → 分割完了（useFiber.md, useQueue.md, useDeferred.md）
+- ✅ ~~request-hooks.md~~ → 分割完了
 
 ## 実装済みHooks ✅
 
@@ -55,23 +71,40 @@
 
 ## 提案中の新規hooks
 
-### ランタイム管理
-- 📋 [useManagedRuntime](./runtime-hooks.md#usemanagedruntime) - カスタムランタイムの管理
-- 📋 [useRuntimeContext](./runtime-hooks.md#useruntimecontext) - ランタイムコンテキストの提供
+### Effect実行 (NEW) ✨
+- 📋 **[useEffectRun](./useEffectRun.md)** - Fiberベースのキャンセル機能付きEffect実行
+  - Fiber.interruptによる適切なキャンセル処理
+  - カスタムランタイムサポート
+  - 手動再実行機能
+- 📋 **[useEffectResult](./useEffectResult.md)** - Exit型とパターンマッチング
+  - 判別可能なユニオン型による型安全な状態管理
+  - Initial/Loading/Success/Failure/Defect状態
+  - matchヘルパー関数
+- 📋 **[useEffectCallback](./useEffectCallback.md)** - ユーザーインタラクションからのEffect実行
+  - フォーム送信・ボタンクリック対応
+  - 引数付きexecute関数
+  - 楽観的更新パターン
 
-### サービス・依存性注入
-- 📋 [useService](./service-hooks.md#useservice) - Effect Serviceの利用
-- 📋 [useLayer](./service-hooks.md#uselayer) - Layerによるサービス提供
-- 📋 [useProvideService](./service-hooks.md#useprovideservice) - サービスの提供
+### サービス・依存性注入 (NEW) ✨
+- 📋 **[useService](./useService.md)** - Effect Serviceの利用
+  - Context.Tagからのサービス取得
+  - 依存性注入パターン
+  - テスト容易性
 
-### ストリーム処理
-- 📋 [useStream](./stream-hooks.md#usestream) - Effect Streamの購読
-- 📋 [useStreamValue](./stream-hooks.md#usestreamvalue) - Stream値の取得
+### ストリーム処理 (NEW) ✨
+- 📋 **[useStream](./useStream.md)** - Effect Streamの購読
+  - WebSocket/SSE対応
+  - リアルタイムデータ購読
+  - バッファサイズ管理
+
+### 今後作成予定 (Phase 3)
+- 📋 useEffectContext - Effect Contextの直接取得
+- 📋 useProvideService - シンプルなサービス提供
 
 ### 並行処理・Fiber管理
-- 📋 [useFiber](./concurrency-hooks.md#usefiber) - Fiberの管理
-- 📋 [useQueue](./concurrency-hooks.md#usequeue) - 並行キューの管理
-- 📋 [useDeferred](./concurrency-hooks.md#usedeferred) - Deferred値の管理
+- 📋 **[useFiber](./useFiber.md)** - Fiberの管理
+- 📋 **[useQueue](./useQueue.md)** - 並行キューの管理
+- 📋 **[useDeferred](./useDeferred.md)** - Deferred値の管理
 
 ### リクエスト最適化
 - 📋 [useRequest](./request-hooks.md#userequest) - リクエストバッチング
@@ -85,22 +118,32 @@
 - 📋 [useConfig](./config-hooks.md#useconfig) - 設定値の読み込み
 - 📋 [useConfigProvider](./config-hooks.md#useconfigprovider) - カスタム設定プロバイダー
 
-## 優先度
+## 優先度と実装ロードマップ
 
-### High Priority (Phase 1)
-1. `useManagedRuntime` - 高度なランタイム管理
-2. `useStream` - リアクティブデータストリーム
-3. `useService` - 依存性注入の基本
+### ✅ 仕様完成 (Phase 1)
+以下のhooksは実装可能なレベルで仕様が定義されています：
+1. ✅ **useEffectRun** - Fiberベースの高度なEffect実行
+2. ✅ **useEffectResult** - パターンマッチングによる型安全な状態管理
+3. ✅ **useEffectCallback** - ユーザーインタラクション対応
+4. ✅ **useService** - 依存性注入の基本
+5. ✅ **useStream** - リアクティブデータストリーム
 
-### Medium Priority (Phase 2)
-4. `useLayer` - サービス構成
-5. `useRequest` - リクエスト最適化
-6. `useFiber` - 並行処理制御
+### ✅ 仕様完成 (Phase 2 - 完了)
+次のhooksも実装可能なレベルで仕様が定義されています：
+6. ✅ **EffectProvider** - アプリケーション全体での依存性注入
+7. ✅ **useStreamValue** - Stream最新値のみ取得（軽量版）
+8. ✅ **useLayer** - サービス構成
+9. ✅ **useManagedRuntime** - 高度なランタイム管理
+10. ✅ **useRuntimeContext** - グローバルランタイム共有
 
-### Low Priority (Phase 3)
-7. `useSchedule` - スケジューリング
-8. `useConfig` - 設定管理
-9. その他のユーティリティhooks
+### 📋 仕様作成予定 (Phase 3)
+11. `useEffectContext` - Context直接操作
+12. `useProvideService` - シンプルなサービス提供
+13. `useFiber` - 並行処理制御
+14. `useQueue` - 並行キューの管理
+15. `useDeferred` - Deferred値の管理
+16. `useRequest` - リクエストバッチング
+17. `useCachedRequest` - キャッシュ付きリクエスト
 
 ## 設計原則
 
@@ -110,3 +153,15 @@
 4. **パフォーマンス** - 不要な再レンダリングを避ける
 5. **クリーンアップ** - 適切なリソース解放
 6. **エラーハンドリング** - 明示的なエラー型
+
+## 📝 Specsファイルの記載ルール
+
+新しいhookの仕様を作成する際は、[README.md](./README.md)の記載ルールに従ってください。
+
+### 重要なルール
+- ✅ ファイル名は `useXXX.md` 形式
+- ✅ 実装できるレベルの粒度で記述
+- ✅ 完全な型定義とコード例を含む
+- ❌ 複数のhooksをまとめたファイル（`xxx-hooks.md`）は禁止
+
+詳細は [README.md](./README.md) を参照してください。
