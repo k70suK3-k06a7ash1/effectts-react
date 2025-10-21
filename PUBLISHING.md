@@ -96,11 +96,54 @@ npm publish --access public
 公開が成功したら、npmのウェブサイトで確認できます：
 https://www.npmjs.com/package/effectts-react
 
-## バージョン管理
+## バージョン管理と公開（Effect-TS Pipeline）
 
-### バージョンの更新
+このプロジェクトでは、Effect-TSを使用したpublishスクリプトとMakefileコマンドを提供しています。
 
-パッケージを更新する際は、セマンティックバージョニングに従ってバージョンを更新します：
+### 自動公開スクリプト
+
+Effect-TSのpipelineを使った自動公開スクリプトが `scripts/publish.ts` にあります。
+このスクリプトは以下を自動で実行します：
+
+1. バージョンのインクリメント
+2. package.jsonの更新
+3. gitコミット作成
+4. gitタグ作成
+5. npm publish
+
+### Makeコマンドでの公開（推奨）
+
+```bash
+# パッチバージョン公開（バグフィックス: 0.1.0 → 0.1.1）
+make publish-patch
+
+# マイナーバージョン公開（新機能追加: 0.1.0 → 0.2.0）
+make publish-minor
+
+# メジャーバージョン公開（破壊的変更: 0.1.0 → 1.0.0）
+make publish-major
+```
+
+これらのコマンドは自動的に以下を実行します：
+- `npm run typecheck` - 型チェック
+- `npm test` - テスト実行
+- `npm run build` - ビルド
+- バージョン更新とnpm publish
+
+### Dry-runモード（テスト実行）
+
+実際にpublishせずに動作確認する場合：
+
+```bash
+# スクリプトを直接実行
+npx tsx scripts/publish.ts patch --dry-run
+npx tsx scripts/publish.ts minor --dry-run
+npx tsx scripts/publish.ts major --dry-run
+```
+
+### 手動でのバージョン更新
+
+従来の方法でバージョンを更新することも可能です：
 
 ```bash
 # パッチバージョンの更新（バグフィックス）
@@ -113,10 +156,18 @@ npm version minor
 npm version major
 ```
 
-バージョン更新後、再度公開します：
+バージョン更新後、手動で公開：
 
 ```bash
 npm publish
+```
+
+### 公開後の作業
+
+自動スクリプトを使用した場合、git push を忘れずに実行してください：
+
+```bash
+git push && git push --tags
 ```
 
 ## トラブルシューティング
@@ -143,18 +194,34 @@ npm login
 
 意図しないファイルが公開されないよう、`.npmignore`を確認してください。
 
+## スクリプトの仕組み
+
+`scripts/publish.ts` は以下のEffect-TS機能を使用しています：
+
+- **Pattern Matching**: バージョンタイプ（major/minor/patch）の処理
+- **Effect Pipeline**: 型安全な非同期処理
+- **@effect/platform**: ファイルシステム・コマンド実行
+- **Effect.gen**: ジェネレーター構文による直感的な処理フロー
+
+詳細は `scripts/publish.ts` のソースコードを参照してください。
+
 ## ベストプラクティス
 
-1. **git tagの作成**: バージョンごとにgit tagを作成
+1. **Makeコマンドを使用**: 自動的にテスト・ビルド・公開を実行
    ```bash
-   git tag v0.1.0
-   git push origin v0.1.0
+   make publish-patch
    ```
 
-2. **CHANGELOG.mdの作成**: 変更履歴を記録
+2. **dry-runで事前確認**: 本番実行前に必ず確認
+   ```bash
+   npx tsx scripts/publish.ts patch --dry-run
+   ```
 
-3. **GitHub Actionsでの自動公開**: CI/CDパイプラインを構築
+3. **CHANGELOG.mdの作成**: 変更履歴を記録
 
-4. **テストの追加**: 公開前にテストを実行
+4. **GitHub Actionsでの自動公開**: CI/CDパイプラインを構築
 
-5. **ドキュメントの充実**: READMEを詳細に記述
+5. **git pushを忘れずに**: タグとコミットをリモートにプッシュ
+   ```bash
+   git push && git push --tags
+   ```

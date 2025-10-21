@@ -268,6 +268,55 @@ Creates a SubscriptionRef with automatic change notifications via reactive strea
 }
 ```
 
+## Development
+
+### Running Tests
+
+```bash
+npm test
+# or
+make test
+```
+
+### Type Checking
+
+```bash
+npm run typecheck
+# or
+make typecheck
+```
+
+### Building
+
+```bash
+npm run build
+# or
+make build
+```
+
+### Publishing
+
+This project uses an Effect-TS pipeline for automated publishing. See [PUBLISHING.md](./PUBLISHING.md) for details.
+
+Quick publish commands:
+
+```bash
+# Publish a patch version (0.1.0 → 0.1.1)
+make publish-patch
+
+# Publish a minor version (0.1.0 → 0.2.0)
+make publish-minor
+
+# Publish a major version (0.1.0 → 1.0.0)
+make publish-major
+```
+
+Test with dry-run mode:
+
+```bash
+npx tsx scripts/publish.ts patch --dry-run
+```
+
 ## License
 
 MIT
