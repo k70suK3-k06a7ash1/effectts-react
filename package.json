@@ -21,6 +21,9 @@
     "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
     "lint": "eslint src --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -51,6 +54,7 @@
     "@vitejs/plugin-react": "^4.7.0",
     "effect": "^3.18.4",
     "eslint": "^9.0.0",
+    "happy-dom": "^20.0.7",
     "jsdom": "^27.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
