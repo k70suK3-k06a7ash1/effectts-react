@@ -1,40 +1,32 @@
-import { createContext, useContext, ReactNode, ReactElement } from 'react';
+import React, { createContext, useContext, ReactNode, ReactElement } from 'react';
 import * as ManagedRuntime from 'effect/ManagedRuntime';
 
-// React context to hold the ManagedRuntime
-const RuntimeContext = createContext<ManagedRuntime.ManagedRuntime<
-  any,
-  any
-> | null>(null);
+/**
+ * React context for ManagedRuntime
+ */
+const RuntimeContext = createContext<
+  ManagedRuntime.ManagedRuntime<any, any> | null | undefined
+>(undefined);
 
 /**
- * RuntimeProvider - Provides a ManagedRuntime to child components via React Context
+ * Props for RuntimeProvider
+ */
+export interface RuntimeProviderProps<R = any, E = never> {
+  runtime: ManagedRuntime.ManagedRuntime<R, E> | null;
+  children: ReactNode;
+}
+
+/**
+ * RuntimeProvider component
+ * Provides a ManagedRuntime to its children via React context
  *
- * @param runtime - The ManagedRuntime to provide to child components
- * @param children - Child React components
- *
- * @example
- * ```typescript
- * function App() {
- *   const { runtime } = useManagedRuntime(AppLayer);
- *
- *   if (!runtime) return <div>Loading...</div>;
- *
- *   return (
- *     <RuntimeProvider runtime={runtime}>
- *       <AppContent />
- *     </RuntimeProvider>
- *   );
- * }
- * ```
+ * @param props - Provider props with runtime and children
+ * @returns React element
  */
 export function RuntimeProvider<R = any, E = never>({
   runtime,
   children,
-}: {
-  runtime: ManagedRuntime.ManagedRuntime<R, E> | null;
-  children: ReactNode;
-}): ReactElement {
+}: RuntimeProviderProps<R, E>): ReactElement {
   return (
     <RuntimeContext.Provider value={runtime}>
       {children}
@@ -43,31 +35,12 @@ export function RuntimeProvider<R = any, E = never>({
 }
 
 /**
- * useRuntimeContext - Retrieves the ManagedRuntime from the nearest RuntimeProvider
+ * useRuntimeContext hook
+ * Gets the ManagedRuntime from the nearest RuntimeProvider
  *
- * Throws an error if used outside of a RuntimeProvider or if runtime is null.
- * Use useOptionalRuntimeContext if you need to handle the absence of a runtime.
- *
- * @returns The provided ManagedRuntime
- * @throws Error if not used within a RuntimeProvider or if runtime is null
- *
- * @example
- * ```typescript
- * function UserList() {
- *   const runtime = useRuntimeContext();
- *
- *   const loadUsers = async () => {
- *     const effect = Effect.gen(function* () {
- *       const db = yield* Effect.service(Database);
- *       return yield* db.query('SELECT * FROM users');
- *     });
- *
- *     return await runtime.runPromise(effect);
- *   };
- *
- *   // ...
- * }
- * ```
+ * @throws Error if used outside of RuntimeProvider
+ * @throws Error if runtime is null
+ * @returns ManagedRuntime from context
  */
 export function useRuntimeContext<R = any>(): ManagedRuntime.ManagedRuntime<
   R,
@@ -75,43 +48,13 @@ export function useRuntimeContext<R = any>(): ManagedRuntime.ManagedRuntime<
 > {
   const runtime = useContext(RuntimeContext);
 
-  if (!runtime) {
-    throw new Error(
-      'useRuntimeContext must be used within a RuntimeProvider. ' +
-        'Make sure your component is wrapped with <RuntimeProvider runtime={...}>.'
-    );
+  if (runtime === undefined) {
+    throw new Error('useRuntimeContext must be used within RuntimeProvider');
+  }
+
+  if (runtime === null) {
+    throw new Error('Runtime is not available');
   }
 
   return runtime as ManagedRuntime.ManagedRuntime<R, never>;
-}
-
-/**
- * useOptionalRuntimeContext - Retrieves the ManagedRuntime from the nearest RuntimeProvider
- *
- * Returns null if used outside of a RuntimeProvider or if runtime is null.
- * Use this for optional runtime access or conditional logic.
- *
- * @returns The provided ManagedRuntime or null if not available
- *
- * @example
- * ```typescript
- * function OptionalFeature() {
- *   const runtime = useOptionalRuntimeContext();
- *
- *   if (!runtime) {
- *     return <div>Feature not available</div>;
- *   }
- *
- *   // Use runtime...
- * }
- * ```
- */
-export function useOptionalRuntimeContext<R = any>(): ManagedRuntime.ManagedRuntime<
-  R,
-  never
-> | null {
-  return useContext(RuntimeContext) as ManagedRuntime.ManagedRuntime<
-    R,
-    never
-  > | null;
 }

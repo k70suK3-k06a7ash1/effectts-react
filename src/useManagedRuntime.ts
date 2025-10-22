@@ -1,20 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as Layer from 'effect/Layer';
 import * as ManagedRuntime from 'effect/ManagedRuntime';
-import * as Effect from 'effect/Effect';
-import * as Exit from 'effect/Exit';
-import * as Cause from 'effect/Cause';
 
 /**
- * React hook for managing Effect-TS ManagedRuntime lifecycle
+ * React hook for managing Effect ManagedRuntime
+ * Creates a runtime from a Layer and handles resource lifecycle
  *
- * Creates a ManagedRuntime from a Layer and manages its lifecycle automatically.
- * Resources acquired in scoped layers are automatically released when the component unmounts.
- *
- * @param layer - The Effect Layer to build the runtime from
- * @param options - Optional configuration
- * @param options.onError - Callback invoked when runtime construction fails
- * @returns Object containing the runtime, loading state, and error
+ * @param layer - The Layer to convert into a runtime
+ * @param options - Optional configuration including error callback
+ * @returns Object containing runtime, loading state, and error
  */
 export function useManagedRuntime<R, E = never>(
   layer: Layer.Layer<R, E, never>,
@@ -38,55 +32,51 @@ export function useManagedRuntime<R, E = never>(
 
   useEffect(() => {
     let cancelled = false;
-    let currentRuntime: ManagedRuntime.ManagedRuntime<R, E> | null = null;
+    let managedRuntime: ManagedRuntime.ManagedRuntime<R, E> | null = null;
 
-    // Reset to loading state when layer changes
-    setState({
-      runtime: null,
-      loading: true,
-      error: null,
-    });
+    // Create ManagedRuntime synchronously
+    try {
+      managedRuntime = ManagedRuntime.make(layer);
 
-    // Create the ManagedRuntime
-    const effect = ManagedRuntime.make(layer);
-
-    // Execute the effect
-    Effect.runPromiseExit(effect).then((exit) => {
-      if (cancelled) return;
-
-      if (Exit.isSuccess(exit)) {
-        // Success: set runtime
-        currentRuntime = exit.value;
-        setState({
-          runtime: exit.value,
-          loading: false,
-          error: null,
+      // Wait for runtime to be ready
+      managedRuntime
+        .runtime()
+        .then(() => {
+          if (!cancelled) {
+            setState({
+              runtime: managedRuntime,
+              loading: false,
+              error: null,
+            });
+          }
+        })
+        .catch((err: E) => {
+          if (!cancelled) {
+            setState({
+              runtime: null,
+              loading: false,
+              error: err,
+            });
+            options?.onError?.(err);
+          }
         });
-      } else {
-        // Failure: set error
-        const failure = Cause.failureOption(exit.cause);
-        const error = failure._tag === 'Some' ? failure.value : (null as E | null);
-
+    } catch (err) {
+      if (!cancelled) {
         setState({
           runtime: null,
           loading: false,
-          error,
+          error: err as E,
         });
-
-        // Call onError callback if provided
-        if (error !== null) {
-          options?.onError?.(error);
-        }
+        options?.onError?.(err as E);
       }
-    });
+    }
 
-    // Cleanup: dispose the ManagedRuntime
+    // Cleanup: dispose runtime
     return () => {
       cancelled = true;
 
-      if (currentRuntime) {
-        // Dispose the runtime (releases all scoped resources)
-        Effect.runPromise(currentRuntime.dispose()).catch((error) => {
+      if (managedRuntime) {
+        managedRuntime.dispose().catch((error) => {
           console.error('Failed to dispose runtime:', error);
         });
       }

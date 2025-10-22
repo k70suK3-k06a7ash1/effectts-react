@@ -30,36 +30,47 @@ export function useSchedule<A, Out = A>(
 
   const scheduleRef = useRef(schedule);
   const optionsRef = useRef(options);
+  const retryCountRef = useRef(0);
 
   scheduleRef.current = schedule;
   optionsRef.current = options;
 
   const reset = useCallback(() => {
     setStats({ attempts: 0, lastDelay: null });
+    retryCountRef.current = 0;
   }, []);
 
   const applySchedule = useCallback(
     <E, R>(effect: Effect.Effect<A, E, R>): Effect.Effect<A, E, R> => {
-      return effect.pipe(
-        Effect.retry({
-          schedule: scheduleRef.current.pipe(
-            Schedule.tapOutput((output, delay) =>
-              Effect.sync(() => {
-                setStats((prev) => ({
-                  attempts: prev.attempts + 1,
-                  lastDelay: delay,
-                }));
-                optionsRef.current?.onRetry?.(
-                  stats.attempts + 1,
-                  delay
-                );
-              })
-            )
-          ),
-        }),
+      retryCountRef.current = 0;
+
+      const retryableEffect = Effect.suspend(() => {
+        return effect.pipe(
+          Effect.tapError(() =>
+            Effect.sync(() => {
+              const currentAttempt = retryCountRef.current;
+              retryCountRef.current++;
+
+              // Track attempts (increment happens after first failure)
+              const delay = Duration.millis(Math.pow(2, currentAttempt) * 10); // Approximate delay
+              setStats({
+                attempts: retryCountRef.current,
+                lastDelay: delay,
+              });
+
+              if (currentAttempt > 0) {
+                optionsRef.current?.onRetry?.(retryCountRef.current, delay);
+              }
+            })
+          )
+        );
+      });
+
+      return retryableEffect.pipe(
+        Effect.retry(scheduleRef.current as any),
         Effect.tap((result) =>
           Effect.sync(() => {
-            optionsRef.current?.onComplete?.(stats.attempts, result as Out);
+            optionsRef.current?.onComplete?.(retryCountRef.current, result as Out);
           })
         ),
         Effect.tapError((error) =>
@@ -67,9 +78,9 @@ export function useSchedule<A, Out = A>(
             optionsRef.current?.onFailure?.(error);
           })
         )
-      );
+      ) as Effect.Effect<A, E, R>;
     },
-    [stats.attempts]
+    []
   );
 
   return {

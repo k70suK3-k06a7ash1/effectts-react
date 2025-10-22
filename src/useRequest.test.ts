@@ -86,7 +86,7 @@ describe('useRequest', () => {
 
   it('should handle errors in executePromise', async () => {
     const testError = new Error('User not found');
-    const resolver = RequestResolver.fromEffect((req: GetUser) =>
+    const resolver = RequestResolver.fromEffect((_req: GetUser) =>
       Effect.fail(testError)
     );
 

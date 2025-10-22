@@ -17,7 +17,7 @@ export function useRequest<A extends Request.Request<any, any>>(
     runtime?: Runtime.Runtime<never>;
   }
 ): {
-  execute: <E, R>(request: Request.Request<E, R>) => Effect.Effect<E, any>;
+  execute: <E, R>(request: Request.Request<E, R>) => Effect.Effect<E, R>;
   executePromise: <E, R>(request: Request.Request<E, R>) => Promise<E>;
   loading: boolean;
   error: any | null;
@@ -30,8 +30,8 @@ export function useRequest<A extends Request.Request<any, any>>(
   resolverRef.current = resolver;
 
   const execute = useCallback(
-    <E, R>(request: Request.Request<E, R>): Effect.Effect<E, any> => {
-      return Effect.request(request, resolverRef.current);
+    <E, R>(request: Request.Request<E, R>): Effect.Effect<E, R> => {
+      return Effect.request(request, resolverRef.current as any) as Effect.Effect<E, R>;
     },
     []
   );
@@ -42,7 +42,7 @@ export function useRequest<A extends Request.Request<any, any>>(
       setError(null);
 
       try {
-        const effect = Effect.request(request, resolverRef.current);
+        const effect = Effect.request(request, resolverRef.current as any) as Effect.Effect<E, any, never>;
         const result = options?.runtime
           ? await Runtime.runPromise(options.runtime)(effect)
           : await Effect.runPromise(effect);

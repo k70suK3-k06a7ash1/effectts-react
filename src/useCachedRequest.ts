@@ -16,6 +16,14 @@ interface CacheStats {
   size: number;
 }
 
+/**
+ * React hook for cached Effect Request/RequestResolver
+ * Adds caching with TTL management on top of request batching
+ *
+ * @param resolver - The RequestResolver that handles batching requests
+ * @param options - Optional configuration including TTL, capacity, and callbacks
+ * @returns Object containing execute, executePromise, cache management, and state
+ */
 export function useCachedRequest<A extends Request.Request<any, any>>(
   resolver: RequestResolver.RequestResolver<A, never>,
   options?: {
@@ -26,7 +34,7 @@ export function useCachedRequest<A extends Request.Request<any, any>>(
     onCacheMiss?: (key: string) => void;
   }
 ): {
-  execute: <E, R>(request: Request.Request<E, R>) => Effect.Effect<E, any>;
+  execute: <E, R>(request: Request.Request<E, R>) => Effect.Effect<E, R>;
   executePromise: <E, R>(request: Request.Request<E, R>) => Promise<E>;
   clearCache: (predicate?: (key: string) => boolean) => void;
   getCacheStats: () => CacheStats;
@@ -39,6 +47,7 @@ export function useCachedRequest<A extends Request.Request<any, any>>(
   const statsRef = useRef<CacheStats>({ hits: 0, misses: 0, size: 0 });
   const resolverRef = useRef(resolver);
 
+  // Update resolver reference when it changes
   resolverRef.current = resolver;
 
   const getCacheKey = useCallback((request: any): string => {
@@ -100,7 +109,7 @@ export function useCachedRequest<A extends Request.Request<any, any>>(
 
   const setCachedValue = useCallback(
     (cacheKey: string, value: any) => {
-      // Capacity limit check
+      // Check capacity limit
       const capacity = options?.capacity ?? 100;
       if (cacheRef.current.size >= capacity) {
         evictOldest();
@@ -117,21 +126,21 @@ export function useCachedRequest<A extends Request.Request<any, any>>(
   );
 
   const execute = useCallback(
-    <E, R>(request: Request.Request<E, R>): Effect.Effect<E, any> => {
+    <E, R>(request: Request.Request<E, R>): Effect.Effect<E, R> => {
       const cacheKey = getCacheKey(request);
       const cached = getCachedValue<E>(cacheKey);
 
       if (cached !== null) {
-        return Effect.succeed(cached);
+        return Effect.succeed(cached) as Effect.Effect<E, R>;
       }
 
-      return Effect.request(request, resolverRef.current).pipe(
+      return Effect.request(request, resolverRef.current as any).pipe(
         Effect.tap((result) =>
           Effect.sync(() => {
             setCachedValue(cacheKey, result);
           })
         )
-      );
+      ) as Effect.Effect<E, R>;
     },
     [getCacheKey, getCachedValue, setCachedValue]
   );
